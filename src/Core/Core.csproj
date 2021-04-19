@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>$(BaseNamespace)</RootNamespace>
+        <AssemblyName>$(RootNamespace)</AssemblyName>
+        <DocumentationFile>Properties\$(AssemblyName).xml</DocumentationFile>
+        <Description>SemverRanges core library</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="semver" Version="2.0.6" />
+    </ItemGroup>
+
+</Project>
