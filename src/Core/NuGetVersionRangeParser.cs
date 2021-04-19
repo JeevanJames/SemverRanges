@@ -20,7 +20,7 @@ namespace Jeevan.SemverRanges
             // Version could be just a semver
             if (SemVersion.TryParse(version, out SemVersion semver))
             {
-                range = new SemverRange(semver, null, true);
+                range = new SemverRange(semver, null);
                 return true;
             }
 
@@ -64,6 +64,7 @@ namespace Jeevan.SemverRanges
             if (version1 is null && version2 is null)
                 return (false, default);
 
+            // Parse the first semver (could be null)
             SemVersion? minimum = null;
             if (version1 is not null && !SemVersion.TryParse(versionParts[0].Trim(), out minimum, strict: false))
                 return (false, default);
@@ -73,18 +74,31 @@ namespace Jeevan.SemverRanges
             // versions for an exact match.
             if (versionParts.Length == 1)
             {
+                if (minimum is null)
+                    return (false, default);
+
                 return minimumInclusive && maximumInclusive
-                    ? (true, new SemverRange(minimum, minimum, true, true)) // Exact match
+                    ? (true, SemverRange.Exact(minimum)) // Exact match
                     : (false, default);
             }
 
             // If only one version specified, we're done
-            if (minimum is not null && versionParts.Length == 1)
-                return (true, new SemverRange(minimum));
+            if (minimum is not null && version2 is null)
+                return (true, new SemverRange(minimum, null, minimumInclusive, maximumInclusive));
 
+            // Parse the second semver (could be null)
             SemVersion? maximum = null;
             if (version2 is not null && !SemVersion.TryParse(version2, out maximum, strict: false))
                 return (false, default);
+
+            // If both versions are exactly the same, then this can only be an exact match, so we expect
+            // [] brackets.
+            if (minimum == maximum)
+            {
+                return minimumInclusive && maximumInclusive
+                    ? (true, SemverRange.Exact(minimum!))
+                    : (false, default);
+            }
 
             return (true, new SemverRange(minimum, maximum, minimumInclusive, maximumInclusive));
         }

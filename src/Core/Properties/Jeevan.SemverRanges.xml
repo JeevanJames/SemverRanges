@@ -4,12 +4,6 @@
         <name>Jeevan.SemverRanges</name>
     </assembly>
     <members>
-        <member name="M:Jeevan.SemverRanges.SemverRange.#ctor(Semver.SemVersion)">
-            <summary>
-                Initializes a new instance of the <see cref="T:Jeevan.SemverRanges.SemverRange"/> struct, with an exact version.
-            </summary>
-            <param name="version">The exact version to assign to the range.</param>
-        </member>
         <member name="M:Jeevan.SemverRanges.SemverRange.#ctor(Semver.SemVersion,Semver.SemVersion,System.Boolean,System.Boolean)">
             <summary>
                 Initializes a new instance of the <see cref="T:Jeevan.SemverRanges.SemverRange"/> struct, with the specified

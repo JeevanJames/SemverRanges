@@ -8,15 +8,6 @@ namespace Jeevan.SemverRanges
     public readonly struct SemverRange
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SemverRange"/> struct, with an exact version.
-        /// </summary>
-        /// <param name="version">The exact version to assign to the range.</param>
-        public SemverRange(SemVersion version)
-            : this(version, version, true, true)
-        {
-        }
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="SemverRange"/> struct, with the specified
         ///     version range details.
         /// </summary>
@@ -50,6 +41,33 @@ namespace Jeevan.SemverRanges
             MinimumInclusive = minimumInclusive;
             Maximum = maximum;
             MaximumInclusive = maximumInclusive;
+        }
+
+        public static SemverRange Exact(SemVersion version)
+        {
+            if (version is null)
+                throw new ArgumentNullException(nameof(version));
+            return new(version, version, true, true);
+        }
+
+        public static SemverRange AllInclusive(SemVersion minimum, SemVersion maximum)
+        {
+            if (minimum is null)
+                throw new ArgumentNullException(nameof(minimum));
+            if (maximum is null)
+                throw new ArgumentNullException(nameof(maximum));
+            return new(minimum, maximum, true, true);
+        }
+
+        public static SemverRange InclusiveMinAndExclusiveMax(SemVersion minimum, SemVersion maximum)
+        {
+            if (minimum is null)
+                throw new ArgumentNullException(nameof(minimum));
+            if (maximum is null)
+                throw new ArgumentNullException(nameof(maximum));
+            if (minimum == maximum)
+                throw new ArgumentException("For the same minimum and maximum versions, both must be inclusive.");
+            return new(minimum, maximum, true, false);
         }
 
         /// <summary>

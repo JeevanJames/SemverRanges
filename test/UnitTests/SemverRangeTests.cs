@@ -51,7 +51,7 @@ namespace Jeevan.SemverRanges.UnitTests
         [Fact]
         public void Ctor_should_support_single_version()
         {
-            var range = new SemverRange("1.0.0");
+            var range = SemverRange.Exact("1.0.0");
 
             range.Minimum.Should().Be("1.0.0");
             range.Maximum.Should().Be("1.0.0");
