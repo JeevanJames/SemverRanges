@@ -4,6 +4,15 @@
         <name>Jeevan.SemverRanges</name>
     </assembly>
     <members>
+        <member name="T:Jeevan.SemverRanges.SemverRange">
+            <summary>
+                Represents a semantic version (semver) range.
+                <para/>
+                The <see cref="P:Jeevan.SemverRanges.SemverRange.Minimum"/> or <see cref="P:Jeevan.SemverRanges.SemverRange.Maximum"/> version can be <c>null</c>, indicating
+                no lower or upper version bounds respectively. Versions in the range can be inclusive or
+                exclusive.
+            </summary>
+        </member>
         <member name="M:Jeevan.SemverRanges.SemverRange.#ctor(Semver.SemVersion,Semver.SemVersion,System.Boolean,System.Boolean)">
             <summary>
                 Initializes a new instance of the <see cref="T:Jeevan.SemverRanges.SemverRange"/> struct, with the specified
@@ -26,6 +35,44 @@
             <exception cref="T:System.ArgumentException">
                 Thrown if both <paramref name="minimum"/> and <paramref name="maximum"/> versions are
                 <c>null</c>, or if the minimum version is greater than the maximum version.
+            </exception>
+        </member>
+        <member name="M:Jeevan.SemverRanges.SemverRange.Exact(Semver.SemVersion)">
+            <summary>
+                Creates a <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance with an exact <paramref name="version"/>.
+            </summary>
+            <param name="version">The exact version to set.</param>
+            <returns>A <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance.</returns>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="version"/> is <c>null</c>.
+            </exception>
+        </member>
+        <member name="M:Jeevan.SemverRanges.SemverRange.AllInclusive(Semver.SemVersion,Semver.SemVersion)">
+            <summary>
+                Creates a <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance with the specified inclusive <paramref name="minimum"/>
+                and <paramref name="maximum"/> versions.
+            </summary>
+            <param name="minimum">The inclusive minimum version.</param>
+            <param name="maximum">The inclusive maximum version.</param>
+            <returns>A <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance.</returns>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="minimum"/> or <paramref name="maximum"/> is <c>null</c>.
+            </exception>
+        </member>
+        <member name="M:Jeevan.SemverRanges.SemverRange.InclusiveMinAndExclusiveMax(Semver.SemVersion,Semver.SemVersion)">
+            <summary>
+                Creates a <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance for a common scenario - inclusive
+                <paramref name="minimum"/> version and exclusive <paramref name="maximum"/> version.
+            </summary>
+            <param name="minimum">The inclusive minimum version.</param>
+            <param name="maximum">The exclusive maximum version.</param>
+            <returns>A <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance.</returns>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="minimum"/> or <paramref name="maximum"/> is <c>null</c>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                Thrown if <paramref name="minimum"/> and <paramref name="maximum"/> are equal, in which
+                case both need to be inclusive.
             </exception>
         </member>
         <member name="P:Jeevan.SemverRanges.SemverRange.Minimum">
@@ -52,6 +99,40 @@
             <summary>
                 Indicates whether this instance of <see cref="T:Jeevan.SemverRanges.SemverRange"/> is undefined. This can
                 happen if the default constructor is used to create the instance.
+            </summary>
+        </member>
+        <member name="M:Jeevan.SemverRanges.SemverRange.VersionInRange(Semver.SemVersion)">
+            <summary>
+                Checks whether the specified <paramref name="semver"/> is within the current version
+                range.
+            </summary>
+            <param name="semver">The semantic version to check.</param>
+            <returns>
+                <c>true</c> if <paramref name="semver"/> is within the current version range; otherwise
+                <c>false</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="semver"/> is <c>null</c>.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                Thrown if the current <see cref="T:Jeevan.SemverRanges.SemverRange"/> instance is undefined.
+            </exception>
+        </member>
+        <member name="M:Jeevan.SemverRanges.SemverRange.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="F:Jeevan.SemverRanges.SemverRange.NuGet">
+            <summary>
+                Returns a <see cref="T:Jeevan.SemverRanges.ISemverRangeParser"/> parser instance for NuGet format version
+                ranges.
+                <para/>
+                Refer https://docs.microsoft.com/en-us/nuget/concepts/package-versioning.
+            </summary>
+        </member>
+        <member name="F:Jeevan.SemverRanges.SemverRange.Npm">
+            <summary>
+                Returns a <see cref="T:Jeevan.SemverRanges.ISemverRangeParser"/> parser instance for NPM format version
+                ranges.
             </summary>
         </member>
     </members>

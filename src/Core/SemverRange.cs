@@ -187,7 +187,7 @@ namespace Jeevan.SemverRanges
         ///     Returns a <see cref="ISemverRangeParser"/> parser instance for NuGet format version
         ///     ranges.
         ///     <para/>
-        ///     Refer https://docs.microsoft.com/en-us/nuget/concepts/package-versioning
+        ///     Refer https://docs.microsoft.com/en-us/nuget/concepts/package-versioning.
         /// </summary>
         public static readonly ISemverRangeParser NuGet = new NuGetVersionRangeParser();
 
