@@ -5,6 +5,8 @@ using Semver;
 
 namespace Jeevan.SemverRanges
 {
+    // Parser for NuGet version ranges.
+    // Refer https://docs.microsoft.com/en-us/nuget/concepts/package-versioning for more details.
     internal sealed class NuGetVersionRangeParser : ISemverRangeParser
     {
         bool ISemverRangeParser.TryParse(string version, out SemverRange range)

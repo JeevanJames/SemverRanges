@@ -5,6 +5,13 @@ using Semver;
 
 namespace Jeevan.SemverRanges
 {
+    /// <summary>
+    ///     Represents a semantic version (semver) range.
+    ///     <para/>
+    ///     The <see cref="Minimum"/> or <see cref="Maximum"/> version can be <c>null</c>, indicating
+    ///     no lower or upper version bounds respectively. Versions in the range can be inclusive or
+    ///     exclusive.
+    /// </summary>
     public readonly struct SemverRange
     {
         /// <summary>
@@ -43,6 +50,14 @@ namespace Jeevan.SemverRanges
             MaximumInclusive = maximumInclusive;
         }
 
+        /// <summary>
+        ///     Creates a <see cref="SemverRange"/> instance with an exact <paramref name="version"/>.
+        /// </summary>
+        /// <param name="version">The exact version to set.</param>
+        /// <returns>A <see cref="SemverRange"/> instance.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="version"/> is <c>null</c>.
+        /// </exception>
         public static SemverRange Exact(SemVersion version)
         {
             if (version is null)
@@ -50,6 +65,16 @@ namespace Jeevan.SemverRanges
             return new(version, version, true, true);
         }
 
+        /// <summary>
+        ///     Creates a <see cref="SemverRange"/> instance with the specified inclusive <paramref name="minimum"/>
+        ///     and <paramref name="maximum"/> versions.
+        /// </summary>
+        /// <param name="minimum">The inclusive minimum version.</param>
+        /// <param name="maximum">The inclusive maximum version.</param>
+        /// <returns>A <see cref="SemverRange"/> instance.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="minimum"/> or <paramref name="maximum"/> is <c>null</c>.
+        /// </exception>
         public static SemverRange AllInclusive(SemVersion minimum, SemVersion maximum)
         {
             if (minimum is null)
@@ -59,6 +84,20 @@ namespace Jeevan.SemverRanges
             return new(minimum, maximum, true, true);
         }
 
+        /// <summary>
+        ///     Creates a <see cref="SemverRange"/> instance for a common scenario - inclusive
+        ///     <paramref name="minimum"/> version and exclusive <paramref name="maximum"/> version.
+        /// </summary>
+        /// <param name="minimum">The inclusive minimum version.</param>
+        /// <param name="maximum">The exclusive maximum version.</param>
+        /// <returns>A <see cref="SemverRange"/> instance.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="minimum"/> or <paramref name="maximum"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     Thrown if <paramref name="minimum"/> and <paramref name="maximum"/> are equal, in which
+        ///     case both need to be inclusive.
+        /// </exception>
         public static SemverRange InclusiveMinAndExclusiveMax(SemVersion minimum, SemVersion maximum)
         {
             if (minimum is null)
@@ -99,6 +138,21 @@ namespace Jeevan.SemverRanges
             return Minimum is null && Maximum is null;
         }
 
+        /// <summary>
+        ///     Checks whether the specified <paramref name="semver"/> is within the current version
+        ///     range.
+        /// </summary>
+        /// <param name="semver">The semantic version to check.</param>
+        /// <returns>
+        ///     <c>true</c> if <paramref name="semver"/> is within the current version range; otherwise
+        ///     <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="semver"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     Thrown if the current <see cref="SemverRange"/> instance is undefined.
+        /// </exception>
         public bool VersionInRange(SemVersion semver)
         {
             if (semver is null)
@@ -114,6 +168,7 @@ namespace Jeevan.SemverRanges
             return satisfiesMinimum && satisfiesMaximum;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             if (IsUndefined())
@@ -128,8 +183,18 @@ namespace Jeevan.SemverRanges
             return sb.ToString();
         }
 
+        /// <summary>
+        ///     Returns a <see cref="ISemverRangeParser"/> parser instance for NuGet format version
+        ///     ranges.
+        ///     <para/>
+        ///     Refer https://docs.microsoft.com/en-us/nuget/concepts/package-versioning
+        /// </summary>
         public static readonly ISemverRangeParser NuGet = new NuGetVersionRangeParser();
 
+        /// <summary>
+        ///     Returns a <see cref="ISemverRangeParser"/> parser instance for NPM format version
+        ///     ranges.
+        /// </summary>
         public static readonly ISemverRangeParser Npm = new NpmVersionRangeParser();
     }
 }
