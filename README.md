@@ -53,5 +53,5 @@ var range = new SemverRange(
 
 ## Status
 SemverRanges is currently under development. The following features are pending:
-* NPM version range parsing (#1) (`~1.2.3`, `^1.2.3`, etc)
+* NPM version range parsing (`~1.2.3`, `^1.2.3`, etc)
 * Parsing generic version range expressions (`>= 2.0.0`, `< 5.0.0`, `>= 2.0.0 & < 5.0.0`, etc)
