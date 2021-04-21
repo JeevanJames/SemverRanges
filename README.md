@@ -1,7 +1,9 @@
 # SemverRanges
+[![NuGet Version](http://img.shields.io/nuget/v/Jeevan.SemverRanges.svg?style=flat)](https://www.nuget.org/packages/Jeevan.SemverRanges/) [![NuGet Downloads](https://img.shields.io/nuget/dt/Jeevan.SemverRanges.svg)](https://www.nuget.org/packages/Jeevan.SemverRanges/) [![GitHub license](https://img.shields.io/github/license/JeevanJames/SemverRanges)](https://github.com/JeevanJames/SemverRanges/blob/main/LICENSE)
+
 SemverRanges is a .NET class library for parsing [NuGet](https://docs.microsoft.com/en-us/nuget/concepts/package-versioning) and [NPM](https://docs.npmjs.com/cli/v7/using-npm/semver#ranges) version ranges.
 
-## Installing
+## Installation
 SemverRanges is a `netstandard2.0` package available on https://www.nuget.org as [`Jeevan.SemverRanges`](https://www.nuget.org/packages/Jeevan.SemverRanges/).
 
 ```sh
@@ -48,3 +50,8 @@ var range = new SemverRange(
     minimumInclusive: true,
     maximumInclusive: false);
 ```
+
+## Status
+SemverRanges is currently under development. The following features are pending:
+* NPM version range parsing (#1) (`~1.2.3`, `^1.2.3`, etc)
+* Parsing generic version range expressions (`>= 2.0.0`, `< 5.0.0`, `>= 2.0.0 & < 5.0.0`, etc)
